@@ -1,0 +1,4 @@
+<form [formGroup]="myOwnForm" (submit)="handleSubmit($event)" ngNativeValidate>
+  <app-forms [schema]="schema" [form]="myOwnForm"></app-forms>
+  <button class="arrayForm-button" type="submit">submit</button>
+</form>

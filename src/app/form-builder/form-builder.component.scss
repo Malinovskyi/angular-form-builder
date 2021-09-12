@@ -1,0 +1,41 @@
+form {
+    position: relative;
+}
+.array__set {
+    border: 2px solid black;
+    display: table;
+    padding: 20px 40px;
+    h4 {
+        font-size: 35px;
+        font-weight: 500;
+    }
+}
+input,
+.selectCountry {
+    width: 200px;
+    border: 1px solid black;
+    margin-top: 10px;
+}
+.checkBox {
+    width: 20px;
+}
+.info {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    font-size: 20px;
+}
+
+.arrayForm {
+    border: 2px solid black;
+    width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    &-button{
+        width: 150px;
+    }
+}
+.sub__arrayForm {
+    position: relative;
+    left: calc(50% - 100px);
+}

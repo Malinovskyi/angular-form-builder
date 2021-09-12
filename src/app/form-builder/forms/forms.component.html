@@ -1,0 +1,140 @@
+<div>
+  <div [formGroup]="myOwnForm">
+    <div *ngFor="let property of schema.properties">
+      <!-- String -->
+
+      <div *ngIf="property.type == 'string'">
+        <label for="{{ property.name }}">{{ property.label }}</label>
+        <input
+          [formControlName]="property.name"
+          id="{{ property.name }}"
+          name="{{ property.name }}"
+          [type]="property?.inputType || 'text'"
+          [placeholder]="property.name"
+          *ngIf="!property.multiline; else myOwnFormtextArea"
+          required
+        />
+        <ng-template #myOwnFormtextArea>
+          <textarea
+            class="textArea"
+            id="{{ property.name }}"
+            name="{{ property.name }}"
+            id=""
+            cols="30"
+            rows="10"
+            [formControlName]="property.name"
+            required
+          >
+          </textarea>
+        </ng-template>
+      </div>
+
+      <!-- NUMBER -->
+
+      <div *ngIf="property.type == 'number'">
+        <label for="{{ property.name }}">{{ property.label }}</label>
+        <input
+          [formControlName]="property.name"
+          id="{{ property.name }}"
+          name="{{ property.name }}"
+          type="number"
+          [placeholder]="property.name"
+          required
+        />
+      </div>
+
+      <!-- Enum -->
+
+      <div *ngIf="property.type == 'enum'">
+        <label for="{{ property.name }}">{{ property.label }}</label>
+        <select
+          class="chooseYourCountry"
+          name="{{ property.name }}"
+          id="{{ property.name }}"
+          [formControlName]="property.name"
+          required
+        >
+          <option
+            value="item.value"
+            *ngFor="let item of property.options"
+            [ngValue]="item.value"
+          >
+            {{ item.label }}
+          </option>
+        </select>
+      </div>
+
+      <!-- BOOLEAN -->
+
+      <div *ngIf="property.type == 'boolean'">
+        <label for="{{ property.name }}">{{ property.label }}</label>
+        <input
+          class="checkBox"
+          type="checkbox"
+          id="{{ property.name }}"
+          name="property.name"
+          [formControlName]="property.name"
+          required
+        />
+      </div>
+
+      <!-- ARRAy -->
+
+      <div
+        class="arrayForm"
+        *ngIf="property.type == 'array'"
+        [formArrayName]="property.name"
+      >
+        <div class="nested2">
+          <label for="{{ property.name }}">{{ property.label }}</label>
+          <ng-container
+            *ngFor="
+              let q of formBuilderService.toArray(property.name, myOwnForm)
+                .controls as arr
+            "
+          >
+            <app-forms
+              [form]="q.get(property.name)"
+              [schema]="property.item"
+            ></app-forms>
+            <ng-container *ngIf="arr.length">
+              <button
+                class="arrayForm-button"
+                (click)="
+                  formBuilderService.onAddToFormArray(
+                    property.name,
+                    property.item,
+                    myOwnForm
+                  )
+                "
+              >
+                Add
+              </button>
+              <button
+                class="arrayForm-button"
+                (click)="
+                  formBuilderService.onRemoveFromFormArray(
+                    property.name,
+                    property.item,
+                    myOwnForm
+                  )
+                "
+              >
+                Remove
+              </button>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- OBJECT -->
+      <div class="formsObject" *ngIf="property.type == 'object'" [formGroupName]="property.name">
+        <label for="{{ property.label }}">{{ property.label }}</label>
+        <app-forms
+          [form]="formProps.get(property.name)"
+          [schema]="property"
+        ></app-forms>
+      </div>
+    </div>
+  </div>
+</div>

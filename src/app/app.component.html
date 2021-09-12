@@ -1,0 +1,21 @@
+<!-- Do not modify this file -->
+<!-- ----------------------- -->
+
+<div style="padding: 16px;">
+  <div style="margin-bottom: 8px; display: flex; gap: 8px;">
+    <button (click)="setSchema('student')">Student</button>
+    <button (click)="setSchema('all-properties')">All properties</button>
+  </div>
+
+  <div style="margin-bottom: 24px;">
+    <h5>
+      Current schema: <strong>{{schema}}</strong>
+    </h5>
+  </div>
+
+  <div style="border: 1px solid black; padding: 8px;">
+    <h2>Dynamic form</h2>
+    <app-form-builder [schema]="schema === 'student' ? studentProfileSchema : testAllPropertiesSchema"
+      (onSubmit)="handleSubmit($event)"></app-form-builder>
+  </div>
+</div>
